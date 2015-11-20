@@ -32,6 +32,7 @@ class OpenTodoSpec implements SpecificationInterface, CriteriaBuilderInterface
      */
     public function isSatisfiedBy(EntityInterface $entity)
     {
+        assert($entity instanceof Todo);
         return !$entity->getStatus()->isCompleted();
     }
 
