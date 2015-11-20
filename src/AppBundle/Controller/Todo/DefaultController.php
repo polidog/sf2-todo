@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class DefaultController
  * @package AppBundle\Controller\Todo
  *
- * @Route("/todo")
+ * @Route("/")
  */
 class DefaultController
 {
