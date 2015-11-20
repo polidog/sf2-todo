@@ -1,0 +1,30 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        calls:
+            - [ setAnnotationReader, [ @annotations.reader ] ]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotations.reader ] ]
+
+    app.repository.todo:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory: [ @doctrine.orm.entity_manager, getRepository]
+        arguments:
+            - AppBundle\Entity\Todo
+        lazy: true

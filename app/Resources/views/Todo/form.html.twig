@@ -1,0 +1,11 @@
+    <div class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <div class="panel-body">
+            <form method="POST" action="{{ url }}">
+                {{ form_widget(form.title) }}
+                {{ form_widget(form._token) }}
+                <br>
+            <button type="submit" class="btn btn-primary">登録</button>
+            </form>
+        </div>
+    </div>

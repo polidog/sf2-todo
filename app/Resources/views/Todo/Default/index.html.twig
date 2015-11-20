@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 class="page-header">タスク</h1>
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ label }}">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ flash }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">タスク一覧</div>
+                {% if pagination.pageCount > 0 %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th{% if pagination.isSorted('a.Id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                            <th{% if pagination.isSorted('a.Title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Title', 'a.title') }}</th>
+                            <th>createdAt</th>
+                            <th> </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for todo in pagination %}
+                            <tr>
+                                <td>{{ todo.id }}</td>
+                                <td>{{ todo.title }}</td>
+                                <td>{{ todo.createdAt|date("Y/m/d H:i:s") }}</td>
+                                <td>
+                                    <a class="btn btn-danger" href="{{ path("app_todo_done_index",{"id": todo.id}) }}">Done</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="panel-body">
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="panel-body">
+                        タスクがありません
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            {% render(controller('AppBundle:Todo/Add:index')) %}
+        </div>
+    </div>
+
+{% endblock %}
