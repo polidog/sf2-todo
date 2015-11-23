@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Class DoneController
  * @package AppBundle\Controller\Todo
- * @Route("/{id}/done")
+ * @Route("/{id}/done", requirements={"id": "\d+"})
  */
 class DoneController
 {
