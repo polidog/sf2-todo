@@ -26,7 +26,9 @@
         "gedmo/doctrine-extensions": "^2.4"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "^5.0",
+        "phake/phake": "^2.1"
     },
     "scripts": {
         "post-install-cmd": [
