@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Todo;
 
 
 use AppBundle\Repository\TodoRepository;
+use AppBundle\Specification\CloseTodoSpec;
 use AppBundle\Specification\OpenTodoSpec;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\Paginator;
@@ -37,7 +38,13 @@ class DefaultController
      * @var OpenTodoSpec
      * @DI\Inject("app_bundle.specification.open_todo_spec")
      */
-    private $specification;
+    private $openSpecification;
+
+    /**
+     * @var CloseTodoSpec
+     * @DI\Inject("app_bundle.specification.close_todo_spec")
+     */
+    private $closeSpecification;
 
     /**
      * @var TodoRepository
@@ -55,15 +62,27 @@ class DefaultController
      */
     public function indexAction(Request $request)
     {
+        // TODO: このダサいifなんとかしたい。。。
+        $type = $request->get('type', 1);
+        if ($type == 1) {
+            $spec = $this->openSpecification;
+        } elseif ($type == 2) {
+            $spec = $this->closeSpecification;
+        } else {
+            $spec = null;
+            $type = 3;
+        }
+
         /** @var SlidingPagination $pagination */
         $pagination = $this->paginator->paginate(
-            $this->todoRepository->getPaginateQuery($this->specification),
+            $this->todoRepository->getPaginateQuery($spec),
             (int)$request->get('page', 1),
             10,
             ['defaultSortFieldName' => 'a.id', 'defaultSortDirection' => 'desc']
         );
         return [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'type' => $type
         ];
     }
 }
