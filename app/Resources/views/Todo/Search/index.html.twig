@@ -1,26 +1,11 @@
 {% extends 'base.html.twig' %}
-
 {% block content %}
-    <h1 class="page-header">タスク</h1>
-    {% for label, flashes in app.session.flashbag.all %}
-        {% for flash in flashes %}
-            <div class="alert alert-{{ label }}">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ flash }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
+    <h1 class="page-header">検索</h1>
     <div class="row">
         <div class="col-sm-8">
             <div class="panel panel-default">
-                <div class="panel-heading">タスク一覧</div>
+                <div class="panel-heading">検索結果</div>
                 <div class="panel-body">
-                    <ul class="nav nav-tabs">
-                        <li role="presentation"{% if type == 1 %} class="active"{% endif %}><a href="{{ path("app_todo_default_index",{"type": 1}) }}">未完了</a></li>
-                        <li role="presentation"{% if type == 2 %} class="active"{% endif %}><a href="{{ path("app_todo_default_index",{"type": 2}) }}">完了</a></li>
-                        <li role="presentation"{% if type == 3 %} class="active"{% endif %}><a href="{{ path("app_todo_default_index",{"type": 3}) }}">すべて</a></li>
-                    </ul>
                     {% if pagination.pageCount > 0 %}
                         <table class="table">
                             <thead>
@@ -59,9 +44,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            {% render(controller('AppBundle:Todo/Add:index')) %}
-            {% render(controller('AppBundle:Todo/Search:box')) %}
+            {% render(controller('AppBundle:Todo/Search:box',{"request": app.request})) %}
         </div>
     </div>
-
 {% endblock %}

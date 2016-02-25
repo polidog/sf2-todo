@@ -34,7 +34,7 @@ class TodoList implements CriteriaBuilderInterface
         $criteria = new Criteria();
 
         // タイトル検索
-        if (empty($this->title)) {
+        if (!empty($this->title)) {
             $criteria->andWhere(
                 $criteria->expr()
                     ->contains('title', $this->title)
