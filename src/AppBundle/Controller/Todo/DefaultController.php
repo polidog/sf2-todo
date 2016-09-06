@@ -76,7 +76,7 @@ class DefaultController
         /** @var SlidingPagination $pagination */
         $pagination = $this->paginator->paginate(
             $this->todoRepository->getPaginateQuery($spec),
-            (int)$request->get('page', 1),
+            $request->getInt('page', 1),
             10,
             ['defaultSortFieldName' => 'a.id', 'defaultSortDirection' => 'desc']
         );
